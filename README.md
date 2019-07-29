@@ -14,7 +14,7 @@ RabbitQC -w nthreads -i in.R1.fq.gz -I in.R2.fq.gz -o out.R1.fq.gz -O out.R2.fq.
 ```
 ## for long read
 ```
-RabbitQC -w nthreads -D in.fq
+RabbitQC -w nthreads -D -i in.fq
 ```
 
 By default, the HTML report is saved to `RabbitQC.html` (can be specified with `-h` option), and the JSON report is saved to `RabbitQC.json` (can be specified with `-j` option).
@@ -30,7 +30,7 @@ cd RabbitQC && make
 
 # citation
 RabbitQC paper is under review now.
-
+<!--
 ## If you use RabbitQC for short read quality control please cite:
 
 Shifu Chen, Yanqing Zhou, Yaru Chen, Jia Gu; fastp: an ultra-fast all-in-one FASTQ preprocessor, Bioinformatics, Volume 34, Issue 17, 1 September 2018, Pages i884–i890, https://doi.org/10.1093/bioinformatics/bty560
@@ -38,4 +38,4 @@ Shifu Chen, Yanqing Zhou, Yaru Chen, Jia Gu; fastp: an ultra-fast all-in-one FAS
 ## If you use RabbitQC for long read quality control please cite:
 
 De Coster W, D’Hert S, Schultz D T, et al. NanoPack: visualizing and processing long-read sequencing data[J]. Bioinformatics, 2018, 34(15): 2666-2669.
-
+-->
