@@ -487,18 +487,30 @@ void PairEndProcessor::consumePack(ThreadConfig* config){
 	else{
 		leftPack->count = dsrc::fq::chunkFormat(chunkpair->leftpart, leftPack->data, true);
 		rightPack->count = dsrc::fq::chunkFormat(chunkpair->rightpart, rightPack->data, true);
-		if(leftPack->count != rightPack->count){
-			cout << "read pair chunk error: count not equal!!" << leftPack->count << " " <<rightPack->count << endl;
-			//exit(0); //-----------------TODO:exit()?????????----------------
-			//std::terminate();
-			exit(0);
-		}else{
-			data->count = leftPack->count;
-			for(int i = 0; i < leftPack->count; ++i){
-				data->data.push_back(new ReadPair(leftPack->data[i], rightPack->data[i]));
-			}
+		//if(leftPack->count != rightPack->count)
+		//{
+		//	cout << "read pair chunk error: count not equal!!" << leftPack->count << " " <<rightPack->count << endl;
+		//	//exit(0); //-----------------TODO:exit()?????????----------------
+		//	//std::terminate();
+		//	exit(0);
+		//}else{
+		//	data->count = leftPack->count;
+		//	for(int i = 0; i < leftPack->count; ++i){
+		//		data->data.push_back(new ReadPair(leftPack->data[i], rightPack->data[i]));
+		//	}
+		//}
+
+		//ignore the unpaired reads from the file tail
+		data->count = leftPack->count < rightPack->count ? leftPack->count : rightPack->count;
+
+		for(int i = 0; i < data->count; ++i){
+			data->data.push_back(new ReadPair(leftPack->data[i], rightPack->data[i]));
 		}
-	
+
+			
+		//if(leftPack->count != rightPack->count)
+		//	cerr << "read pair chunk error: count not equal!!" << leftPack->count << " " <<rightPack->count << endl;
+
 		pairReader->fastqPool_left->Release(chunkpair->leftpart);
 		pairReader->fastqPool_right->Release(chunkpair->rightpart);
 		//cerr << "Read Pair data size is: " << data->data.size() << endl;	

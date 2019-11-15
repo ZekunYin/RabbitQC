@@ -103,7 +103,7 @@ void HtmlReporter::printSummary(ofstream& ofs, FilterResult* result, Stats* preS
     }
 
     ofs << endl;
-    ofs << "<h1 style='text-align:left;'><a href='https://github.com/OpenGene/fastp' target='_blank' style='color:#663355;text-decoration:none;'>" + mOptions->reportTitle + "</a>"<<endl;
+    ofs << "<h1 style='text-align:left;'><a href='https://github.com/ZekunYin/RabbitQC' target='_blank' style='color:#663355;text-decoration:none;'>" + mOptions->reportTitle + "</a>"<<endl;
     ofs << "<div class='section_div'>\n";
     ofs << "<div class='section_title' onclick=showOrHide('summary')><a name='summary'>Summary</a></div>\n";
     ofs << "<div id='summary'>\n";
@@ -111,7 +111,7 @@ void HtmlReporter::printSummary(ofstream& ofs, FilterResult* result, Stats* preS
     ofs << "<div class='subsection_title' onclick=showOrHide('general')>General</div>\n";
     ofs << "<div id='general'>\n";
     ofs << "<table class='summary_table'>\n";
-    outputRow(ofs, "fastp version:", string(FASTP_VER)+ " (<a href='https://github.com/OpenGene/fastp'>https://github.com/OpenGene/fastp</a>)");
+    outputRow(ofs, "fastp version:", string(FASTP_VER)+ " (<a href='https://github.com/ZekunYin/RabbitQC'>https://github.com/ZekunYin/RabbitQC</a>)");
     outputRow(ofs, "sequencing:", sequencingInfo);
 
     // report read length change
