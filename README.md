@@ -22,13 +22,13 @@ By default, the HTML report is saved to `RabbitQC.html` (can be specified with `
 # Options
 RabbitQC suports all fastp options for short read quality control and all NanoQC optiions for long read quality control. For details please refer to [fastp](https://github.com/OpenGene/fastp) and [NanoQC](https://github.com/wdecoster/nanoQC).
 
-# examples of report
+# Examples of report
 `RabbitQC` creates reports in both HTML and JSON format.
 
-# build
+# Build
 cd RabbitQC && make
 
-# citation
+# Citation
 RabbitQC paper is under review now.
 <!--
 ## If you use RabbitQC for short read quality control please cite:
