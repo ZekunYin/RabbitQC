@@ -167,6 +167,8 @@ int TGSStats::base2num(string base) {
 		return 2;
 	else if (base == "T")
 		return 3;
+	
+	return -1;//fix warning (no ACGT)
 } 
 
 string TGSStats::list2string(double* list, int size) {

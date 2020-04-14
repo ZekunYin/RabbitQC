@@ -355,6 +355,7 @@ FastqChunkReaderPair::~FastqChunkReaderPair(){
 ChunkPair* FastqChunkReaderPair::readNextChunkPair(){
 	if(mInterleaved){
 		//interleaved code here
+		return NULL;
 
 	}else{
 		//not interleaved

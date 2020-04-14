@@ -10,7 +10,7 @@ Options::Options(){
     out1 = "";
     out2 = "";
     //reportTitle = "fastp report";
-    reportTitle = "rabbitQC report";
+    reportTitle = "RabbitQC report";
     thread = 1;
     compression = 2;
     phred64 = false;

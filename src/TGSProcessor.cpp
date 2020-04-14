@@ -181,6 +181,8 @@ bool TGSProcessor::processSingleEnd(ReadPack* pack, ThreadConfig* config){
 	
 	delete pack;
 
+	return true; //fix warning
+
 }
 
 void TGSProcessor::initPackRepository() {

@@ -1,4 +1,4 @@
-DIR_INC := 
+DIR_INC := .
 DIR_SRC := ./src
 DIR_OBJ := ./src
 
@@ -21,7 +21,7 @@ LD_FLAGS := $(foreach librarydir,$(LIBRARY_DIRS),-L$(librarydir)) $(LIBS)
 
 
 ${BIN_TARGET}:${OBJ}
-	$(CXX) $(OBJ) -o $@ $(LD_FLAGS)
+	$(CXX) $(OBJ) -O3 -o $@ $(LD_FLAGS)
 
 ${DIR_OBJ}/%.o:${DIR_SRC}/%.cpp
 	$(CXX) $(CXXFLAGS) -O3 -c $< -o $@

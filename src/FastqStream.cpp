@@ -158,6 +158,7 @@ uint64 FastqFileReader::GetPreviousRecordPos(uchar* data_, uint64 pos_,const uin
 		//此时应该是name
 		if(data_[pos_+offset]!='@'){
 			std::cout << "core dump is " << data_[pos_+offset] << std::endl;
+			return pos0; //fix warning
 		}else{
 			return pos_+offset;
 		}

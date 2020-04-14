@@ -410,7 +410,7 @@ void HtmlReporter::report3(TGSStats* preStats1, TGSStats* postStats1, TGSStats* 
 void HtmlReporter::printHeader(ofstream& ofs){
     ofs << "<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />";
     //ofs << "<title>fastp report at " + getCurrentSystemTime() + " </title>";
-    ofs << "<title>rabbitQC report at " + getCurrentSystemTime() + " </title>";
+    ofs << "<title>RabbitQC report at " + getCurrentSystemTime() + " </title>";
     printJS(ofs);
     printCSS(ofs);
     ofs << "</head>";

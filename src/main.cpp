@@ -8,6 +8,7 @@
 #include "options.h"
 #include "processor.h"
 #include "evaluator.h"
+#include <omp.h>
 
 // TODO: code refactoring to remove these global variables
 string command;
@@ -29,6 +30,11 @@ int main(int argc, char* argv[]){
         cerr << "rabbit_qc " << FASTP_VER << endl;
         return 0;
     }
+	//detect cpu cores using openmp
+	int nprocs = omp_get_num_procs();
+	cerr << nprocs << " CPUs detected" << endl;
+	if(nprocs >= 4) nprocs -= 2;
+
     cmdline::parser cmd;
     // input/output
     cmd.add<string>("in1", 'i', "read1 input file name", false, "");
@@ -110,13 +116,13 @@ int main(int argc, char* argv[]){
     cmd.add<int>("overrepresentation_sampling", 'P', "one in (--overrepresentation_sampling) reads will be computed for overrepresentation analysis (1~10000), smaller is slower, default is 20.", false, 20);
     
     // reporting
-    cmd.add<string>("json", 'j', "the json format report file name", false, "rabbitQC.json");
-    cmd.add<string>("html", 'h', "the html format report file name", false, "rabbitQC.html");
+    cmd.add<string>("json", 'j', "the json format report file name", false, "RabbitQC.json");
+    cmd.add<string>("html", 'h', "the html format report file name", false, "RabbitQC.html");
     //cmd.add<string>("report_title", 'R', "should be quoted with \' or \", default is \"fastp report\"", false, "fastp report");
-    cmd.add<string>("report_title", 'R', "should be quoted with \' or \", default is \"rabbitQC report\"", false, "rabbitQC report");
+    cmd.add<string>("report_title", 'R', "should be quoted with \' or \", default is \"rabbitQC report\"", false, "RabbitQC report");
 
     // threading
-    cmd.add<int>("thread", 'w', "worker thread number, default is 2", false, 2);
+    cmd.add<int>("thread", 'w', "worker thread number, default is [max CPU cores - 2]", false, nprocs);
 
     // split the output
     cmd.add<int>("split", 's', "split output by limiting total split file number with this option (2~999), a sequential number prefix will be added to output name ( 0001.out.fq, 0002.out.fq...), disabled by default", false, 0);

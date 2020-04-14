@@ -2,25 +2,25 @@
 A tool designed to provide high-speed scalable quality control for sequencing data which can take full advantage of modern hardware.
 It includes a variety of function modules and supports different sequencing technologies (Illumina, Oxford Nanopore, PacBio). RabbitQC achieves speedups between one and two orders-of-magnitude compared to other state-of-the-art tools.
 
-# simple usage
-## for short read
-* for single end data (not compressed)
+# Simple usage
+## For short read
+* For single end data (not compressed)
 ```
-RabbitQC -w nthreads -i in.fq -o out.fq
+rabbit_qc -w nthreads -i in.fq -o out.fq
 ```
-* for paired end data (gzip compressed)
+* For paired end data (gzip compressed)
 ```
-RabbitQC -w nthreads -i in.R1.fq.gz -I in.R2.fq.gz -o out.R1.fq.gz -O out.R2.fq.gz
+rabbit_qc -w nthreads -i in.R1.fq.gz -I in.R2.fq.gz -o out.R1.fq.gz -O out.R2.fq.gz
 ```
-## for long read
+## For long read
 ```
-RabbitQC -w nthreads -D -i in.fq
+rabbit_qc -w nthreads -D -i in.fq
 ```
-
+If `-w` opition is not specified, RabbitQC will set working thread number to total CPU cores - 2.
 By default, the HTML report is saved to `RabbitQC.html` (can be specified with `-h` option), and the JSON report is saved to `RabbitQC.json` (can be specified with `-j` option).
 
 # Options
-RabbitQC suports all fastp options for short read quality control and all NanoQC optiions for long read quality control. For details please to [fastp](https://github.com/OpenGene/fastp) and [NanoQC](https://github.com/wdecoster/nanoQC).
+RabbitQC suports all fastp options for short read quality control and all NanoQC optiions for long read quality control. For details please refer to [fastp](https://github.com/OpenGene/fastp) and [NanoQC](https://github.com/wdecoster/nanoQC).
 
 # examples of report
 `RabbitQC` creates reports in both HTML and JSON format.
