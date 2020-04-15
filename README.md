@@ -16,6 +16,15 @@ rabbit_qc -w nthreads -i in.R1.fq.gz -I in.R2.fq.gz -o out.R1.fq.gz -O out.R2.fq
 ```
 rabbit_qc -w nthreads -D -i in.fq
 ```
+
+## For large gz files
+A more efficient strategy to process large gzip compressed FASTQ files is to decompress files using pugz and then process them using RabbitQC. Pugz has been integrated into RabbitQC project.
+
+```
+cd RabbitQC/pugz && make asserts=0
+./gunzip -t nthreads in.fq.gz
+```
+
 If `-w` opition is not specified, RabbitQC will set working thread number to total CPU cores - 2.
 By default, the HTML report is saved to `RabbitQC.html` (can be specified with `-h` option), and the JSON report is saved to `RabbitQC.json` (can be specified with `-j` option).
 
