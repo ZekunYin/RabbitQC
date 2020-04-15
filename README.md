@@ -37,8 +37,9 @@ RabbitQC suports all fastp options for short read quality control and all NanoQC
 `RabbitQC` creates reports in both HTML and JSON format.
 
 # Build
+```
 cd RabbitQC && make
-
+```
 # Citation
 RabbitQC paper is under review now.
 <!--
