@@ -25,10 +25,12 @@ cd RabbitQC/pugz && make asserts=0
 ./gunzip -t nthreads in.fq.gz
 ```
 
+# Options
+For more help information, please refer to `rabbit_qc -h`.
+
 If `-w` opition is not specified, RabbitQC will set working thread number to total CPU cores - 2.
 By default, the HTML report is saved to `RabbitQC.html` (can be specified with `-h` option), and the JSON report is saved to `RabbitQC.json` (can be specified with `-j` option).
 
-# Options
 RabbitQC suports all fastp options for short read quality control and all NanoQC optiions for long read quality control. For details please refer to [fastp](https://github.com/OpenGene/fastp) and [NanoQC](https://github.com/wdecoster/nanoQC).
 
 # Examples of report
