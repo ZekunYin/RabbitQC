@@ -1,3 +1,5 @@
+![RabbitQC](qc.png)
+
 # RabbitQC
 A tool designed to provide high-speed scalable quality control for sequencing data which can take full advantage of modern hardware.
 It includes a variety of function modules and supports different sequencing technologies (Illumina, Oxford Nanopore, PacBio). RabbitQC achieves speedups between one and two orders-of-magnitude compared to other state-of-the-art tools.
