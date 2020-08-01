@@ -39,12 +39,27 @@ RabbitQC suports all fastp options for short read quality control and all NanoQC
 `RabbitQC` creates reports in both HTML and JSON format.
 
 # Build
-```
+
+**For Linux and OSX:**
+
+```bash
 cd RabbitQC && make
 ```
+**For Windows:**
+
+We provide a prebuild binary for x64 windows (tested on 64bit Windows 10) [here](https://github.com/ZekunYin/RabbitQC/releases). Or you can build RabbitQC using MYSY2.
+
+```bash
+cd RabbitQC && make
+```
+
+
+
 # Citation
+
 RabbitQC paper is under review now.
 <!--
+
 ## If you use RabbitQC for short read quality control please cite:
 
 Shifu Chen, Yanqing Zhou, Yaru Chen, Jia Gu; fastp: an ultra-fast all-in-one FASTQ preprocessor, Bioinformatics, Volume 34, Issue 17, 1 September 2018, Pages i884–i890, https://doi.org/10.1093/bioinformatics/bty560
