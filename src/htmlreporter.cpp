@@ -111,7 +111,7 @@ void HtmlReporter::printSummary(ofstream& ofs, FilterResult* result, Stats* preS
     ofs << "<div class='subsection_title' onclick=showOrHide('general')>General</div>\n";
     ofs << "<div id='general'>\n";
     ofs << "<table class='summary_table'>\n";
-    outputRow(ofs, "fastp version:", string(FASTP_VER)+ " (<a href='https://github.com/ZekunYin/RabbitQC'>https://github.com/ZekunYin/RabbitQC</a>)");
+    outputRow(ofs, "RabbitQC version:", string(RABBITQC_VER)+ " (<a href='https://github.com/ZekunYin/RabbitQC'>https://github.com/ZekunYin/RabbitQC</a>)");
     outputRow(ofs, "sequencing:", sequencingInfo);
 
     // report read length change
@@ -409,7 +409,7 @@ void HtmlReporter::report3(TGSStats* preStats1, TGSStats* postStats1, TGSStats* 
 
 void HtmlReporter::printHeader(ofstream& ofs){
     ofs << "<html><head><meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />";
-    //ofs << "<title>fastp report at " + getCurrentSystemTime() + " </title>";
+    //ofs << "<title>RabbitQC report at " + getCurrentSystemTime() + " </title>";
     ofs << "<title>RabbitQC report at " + getCurrentSystemTime() + " </title>";
     printJS(ofs);
     printCSS(ofs);
@@ -472,6 +472,6 @@ void HtmlReporter::printFooter(ofstream& ofs){
     ofs << "\n</div>" << endl;
     ofs << "<div id='footer'> ";
     ofs << "<p>"<<command<<"</p>";
-    ofs << "fastp " << FASTP_VER << ", at " << getCurrentSystemTime() << " </div>";
+    ofs << "RabbitQC " << RABBITQC_VER << ", at " << getCurrentSystemTime() << " </div>";
     ofs << "</body></html>";
 }

@@ -17,7 +17,7 @@ mutex logmtx;
 int main(int argc, char* argv[]){
     // display version info if no argument is given
     if(argc == 1) {
-        cerr << "rabbit_qc: an ultra-fast all-in-one FASTQ preprocessor" << endl << "version " << FASTP_VER << endl;
+        cerr << "rabbit_qc: an ultra-fast all-in-one FASTQ preprocessor" << endl << "version " << RABBITQC_VER << endl;
         //cerr << "fastp --help to see the help"<<endl;
         //return 0;
     }
@@ -27,7 +27,7 @@ int main(int argc, char* argv[]){
         return 0;
     }
     if (argc == 2 && (strcmp(argv[1], "-v")==0 || strcmp(argv[1], "--version")==0)){
-        cerr << "rabbit_qc " << FASTP_VER << endl;
+        cerr << "rabbit_qc " << RABBITQC_VER << endl;
         return 0;
     }
 	//detect cpu cores using openmp
@@ -401,7 +401,7 @@ int main(int argc, char* argv[]){
     cerr << endl << "JSON report: " << opt.jsonFile << endl;
     cerr << "HTML report: " << opt.htmlFile << endl;
     cerr << endl << command << endl;
-    cerr << "rabbit_qc v" << FASTP_VER << ", time used: " << (t2)-t1 << " seconds" << endl;
+    cerr << "rabbit_qc v" << RABBITQC_VER << ", time used: " << (t2)-t1 << " seconds" << endl;
 
     return 0;
 }
