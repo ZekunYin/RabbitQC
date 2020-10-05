@@ -57,7 +57,7 @@ cd RabbitQC && make
 
 # Citation
 
-RabbitQC paper is under review now.
+Zekun Yin, Hao Zhang, Meiyang Liu, Wen Zhang, Honglei Song, Haidong Lan, Yanjie Wei, Beifang Niu, Bertil Schmidt, Weiguo Liu, RabbitQC: High-speed scalable quality control for sequencing data, Bioinformatics, , btaa719, https://doi.org/10.1093/bioinformatics/btaa719
 <!--
 
 ## If you use RabbitQC for short read quality control please cite:
