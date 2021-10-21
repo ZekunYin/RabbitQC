@@ -9,7 +9,7 @@
 #include "jsonreporter.h"
 #include "htmlreporter.h"
 #include "TGSStats.h"
-
+#include "FastqStream.h"
 
 TGSProcessor::TGSProcessor(Options* opt){
     mOptions = opt;
@@ -27,7 +27,7 @@ TGSProcessor::TGSProcessor(Options* opt){
     //}
 
 	//dsrc faster reader 
-    fastqPool = new dsrc::fq::FastqDataPool(128,1<<22);
+    fastqPool = new dsrc::fq::FastqDataPool(128,SwapBufferSize);
 }
 TGSProcessor::~TGSProcessor(){
 	delete fastqPool;

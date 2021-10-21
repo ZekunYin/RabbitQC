@@ -35,7 +35,7 @@ PairEndProcessor::PairEndProcessor(Options* opt){
         mDuplicate = new Duplicate(mOptions);
     }
 	if(mOptions->interleavedInput)
-    	fastqPool = new dsrc::fq::FastqDataPool(128,1<<22);
+    	fastqPool = new dsrc::fq::FastqDataPool(128,SwapBufferSize);
 }
 
 PairEndProcessor::~PairEndProcessor() {

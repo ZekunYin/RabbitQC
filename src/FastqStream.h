@@ -53,6 +53,8 @@
 #   define FCLOSE   fclose
 #endif
 
+static const uint32 SwapBufferSize = 1 << 24;
+
 namespace dsrc
 {
 
@@ -62,8 +64,6 @@ namespace fq
 class FastqFileReader
 {
 private:
-	static const uint32 SwapBufferSize = 1 << 20;
-	//static const uint32 SwapBufferSize = 1 << 13;
 
 public:
 	FastqFileReader(const std::string& fileName_)

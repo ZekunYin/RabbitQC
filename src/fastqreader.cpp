@@ -2,6 +2,8 @@
 #include "util.h"
 #include <string.h>
 #include "Fastq.h"
+#include "FastqStream.h"
+
 #define FQ_BUF_SIZE (1<<20)
 //#include <immintrin.h>
 
@@ -300,8 +302,8 @@ ReadPair* FastqReaderPair::read(){
 
 //----------------------
 FastqChunkReaderPair::FastqChunkReaderPair(dsrc::fq::FastqReader* left, dsrc::fq::FastqReader* right)
-	:swapBuffer_left(1<<13)
-	,swapBuffer_right(1<<13)
+	:swapBuffer_left(SwapBufferSize)
+	,swapBuffer_right(SwapBufferSize)
 	,bufferSize_left(0)
 	,bufferSize_right(0)
 	,eof(false)
@@ -312,8 +314,8 @@ FastqChunkReaderPair::FastqChunkReaderPair(dsrc::fq::FastqReader* left, dsrc::fq
 }
 
 FastqChunkReaderPair::FastqChunkReaderPair(string leftName, string rightName, bool hasQuality, bool phred64, bool interleaved)
-	:swapBuffer_left(1 << 13)
-	,swapBuffer_right(1 << 13)
+	:swapBuffer_left(SwapBufferSize)
+	,swapBuffer_right(SwapBufferSize)
 	,bufferSize_left(0)
 	,bufferSize_right(0)
 	,eof(false)
@@ -321,7 +323,7 @@ FastqChunkReaderPair::FastqChunkReaderPair(string leftName, string rightName, bo
 
 {
 	mInterleaved = interleaved;
-	fastqPool_left = new dsrc::fq::FastqDataPool(128,1<<22);
+	fastqPool_left = new dsrc::fq::FastqDataPool(128,SwapBufferSize);
 	fileReader_left = new dsrc::fq::FastqFileReader(leftName);
 	mLeft = new dsrc::fq::FastqReader(*fileReader_left, *fastqPool_left);
 	if(mInterleaved){
@@ -330,7 +332,7 @@ FastqChunkReaderPair::FastqChunkReaderPair(string leftName, string rightName, bo
 		fileReader_right = NULL;
 	}
 	else{
-		fastqPool_right = new dsrc::fq::FastqDataPool(128,1<<22);
+		fastqPool_right = new dsrc::fq::FastqDataPool(128,SwapBufferSize);
 		fileReader_right = new dsrc::fq::FastqFileReader(rightName);
 		mRight = new dsrc::fq::FastqReader(*fileReader_right, *fastqPool_left);
 	}
@@ -489,6 +491,9 @@ ChunkPair* FastqChunkReaderPair::readNextChunkPair_interleaved(){
 	int64 right_line_count = 0;
 	int64 chunkEnd_right = 0;
 	int64 chunkEnd = 0;
+	//cout << "left buffer pos: " << bufferSize_left << endl;
+	//cout << "right buffer pos: " << bufferSize_right<< endl;
+	//cout << std::flush;
 //------read left chunk------//
 	if(eof){
 		leftPart->size = 0;
@@ -514,7 +519,7 @@ ChunkPair* FastqChunkReaderPair::readNextChunkPair_interleaved(){
 	r = mLeft->Read(data + leftPart->size, toRead);
 	if(r > 0){
 		if(r == toRead){
-			chunkEnd = cbufSize - (1<<13);//SwapBufferSize; // SwapBuffersize defined in FastqStream.h as constant value : 1<<13;
+			chunkEnd = cbufSize - (SwapBufferSize / 16);
 			chunkEnd = GetNextRecordPos(data, chunkEnd, cbufSize);
 			//leftPart->size = chunkEnd - 1;
 			//if(usesCrlf)
@@ -550,7 +555,9 @@ ChunkPair* FastqChunkReaderPair::readNextChunkPair_interleaved(){
 	r = mRight->Read(data_right + rightPart->size, toRead);
 	if(r > 0){
 		if(r == toRead){
-			chunkEnd_right = cbufSize_right - (1<<13); //SwapBufferSize; // SwapBuffersize defined in FastqStream.h as constant value : 1<<13;
+			//search point position, should be much less than swapbuffersize
+			//chunkEnd_right = cbufSize_right - (1<<20); 
+			chunkEnd_right = cbufSize_right - (SwapBufferSize / 16); 
 			chunkEnd_right = GetNextRecordPos(data_right, chunkEnd_right, cbufSize_right);
 			//leftPart->size = chunkEnd - 1;
 			//if(usesCrlf)
@@ -576,42 +583,49 @@ ChunkPair* FastqChunkReaderPair::readNextChunkPair_interleaved(){
 	    left_line_count = count_line(data, chunkEnd);
 	    right_line_count = count_line(data_right, chunkEnd_right);
 	    //int64 difference = right_line_count - left_line_count;
-		int64 difference = left_line_count - right_line_count;
+	    int64 difference = left_line_count - right_line_count;
 	    //if((r != toRead) && (difference != 0)){
 	    //	cerr << "read error! inconsistent end!!";
 	    //	exit(0);
 	    //}
 	    //std::cout<<"left right difference: " << left_line_count <<" "<< right_line_count <<" "<< difference << std::endl;
+	    //std::cout<<"left right: " << chunkEnd << " "<<  chunkEnd_right << std::endl;
+            //std::cout << (data[chunkEnd] == '\n' ? 1 : 0) << endl;
+            //std::cout << (char)data[chunkEnd]  << endl;
+	    //assert(difference >= 0);
+
 	    if(difference>0){
 	    	//move rightPart difference lines before
 			//std::cout << "difference > 0 "<<left_line_count <<" " <<right_line_count << " " << difference <<std::endl;
-			std::cout << "start: " << chunkEnd_right << std::endl;
-	    	//while(true){
-			while(chunkEnd_right < cbufSize){
-	    		if(data_right[chunkEnd_right] == '\n'){
-	    			difference--;
-	    			if(difference == 0){
-	    				chunkEnd_right++;
-	    				break;
-					}
-	    		}
-	    		chunkEnd_right++;
-	    	}
-			std::cout << "end: " << chunkEnd_right << std::endl;
-	    			
-	    }else if(difference < 0){
-	    	//move leftPart difference lines before
-			//std::cout << "difference < 0 "  <<left_line_count <<" " <<right_line_count << " " << difference << std::endl;
-	    	//while(true){
-	    	while(chunkEnd < cbufSize){
+			//std::cout << "start: " << chunkEnd_right << std::endl;
+	    	//while(true)
+			while(chunkEnd < cbufSize){
 	    		if(data[chunkEnd] == '\n'){
-	    			difference++;
-	    			if(difference == 0){
+	    			difference--;
+	    			if(difference == -1){
 	    				chunkEnd++;
 	    				break;
 					}
 	    		}
-	    		chunkEnd++;
+	    		chunkEnd--;
+	    	}
+			//std::cout << "end: " << chunkEnd_right << std::endl;
+	    			
+	    }else if(difference < 0){
+	    	//move leftPart difference lines before
+			//std::cout << "difference < 0 "  <<left_line_count <<" " <<right_line_count << " " << difference << std::endl;
+	    	//while(true)
+
+	    	while(chunkEnd_right < cbufSize)
+		{
+	    		if(data_right[chunkEnd_right] == '\n'){
+	    			difference++;
+	    			if(difference == 1){
+	    				chunkEnd_right++;
+	    				break;
+					}
+	    		}
+	    		chunkEnd_right--;
 	    	}
 	    }
 
@@ -623,13 +637,28 @@ ChunkPair* FastqChunkReaderPair::readNextChunkPair_interleaved(){
 	    bufferSize_left = cbufSize - chunkEnd;
 
 	    rightPart->size = chunkEnd_right - 1;
+		
+	    //std::cout<<"new left right: " << chunkEnd << " "<<  chunkEnd_right << std::endl;
+
+            //std::cout << "left: " << (char)data[chunkEnd]  << endl;
 	    if(usesCrlf)
 	    	rightPart->size -= 1;
-	    std::copy(data_right + chunkEnd_right, data_right + cbufSize_right, swapBuffer_right.Pointer());
+	    //std::copy(data_right + chunkEnd_right, data_right + cbufSize_right, swapBuffer_right.Pointer());
+	    for(int i = 0; i < cbufSize_right - chunkEnd_right; i++)
+		swapBuffer_right.Pointer()[i] = data_right[i + chunkEnd_right];
 	    bufferSize_right = cbufSize_right - chunkEnd_right;
+            //std::cout << "right: " << (char)data_right[chunkEnd_right]  << endl;
+
+	    left_line_count = count_line(data, chunkEnd);
+	    right_line_count = count_line(data_right, chunkEnd_right);
+	    //std::cout<<"left right difference: " << left_line_count <<" "<< right_line_count <<" "<< left_line_count - right_line_count<< std::endl;
+
 	}	
 	pair->leftpart = leftPart;
 	pair->rightpart = rightPart;
+	//std::cout << "pair done" << endl;
+	//std::cout << "left size:" << pair->leftpart->size << endl;
+	//std::cout << "right size:" << pair->rightpart->size << endl;
 	return pair;			
 
 }

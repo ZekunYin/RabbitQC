@@ -27,7 +27,7 @@ SingleEndProcessor::SingleEndProcessor(Options* opt){
     }
 
 	//dsrc faster reader 
-    fastqPool = new dsrc::fq::FastqDataPool(128,1<<22);
+    fastqPool = new dsrc::fq::FastqDataPool(128,SwapBufferSize);
 }
 
 SingleEndProcessor::~SingleEndProcessor() {
