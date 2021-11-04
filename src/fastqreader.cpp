@@ -643,14 +643,14 @@ ChunkPair* FastqChunkReaderPair::readNextChunkPair_interleaved(){
             //std::cout << "left: " << (char)data[chunkEnd]  << endl;
 	    if(usesCrlf)
 	    	rightPart->size -= 1;
-	    //std::copy(data_right + chunkEnd_right, data_right + cbufSize_right, swapBuffer_right.Pointer());
-	    for(int i = 0; i < cbufSize_right - chunkEnd_right; i++)
-		swapBuffer_right.Pointer()[i] = data_right[i + chunkEnd_right];
+	    std::copy(data_right + chunkEnd_right, data_right + cbufSize_right, swapBuffer_right.Pointer());
+	    //for(int i = 0; i < cbufSize_right - chunkEnd_right; i++)
+		//    swapBuffer_right.Pointer()[i] = data_right[i + chunkEnd_right];
 	    bufferSize_right = cbufSize_right - chunkEnd_right;
-            //std::cout << "right: " << (char)data_right[chunkEnd_right]  << endl;
+        //std::cout << "right: " << (char)data_right[chunkEnd_right]  << endl;
 
-	    left_line_count = count_line(data, chunkEnd);
-	    right_line_count = count_line(data_right, chunkEnd_right);
+	    //left_line_count = count_line(data, chunkEnd);
+	    //right_line_count = count_line(data_right, chunkEnd_right);
 	    //std::cout<<"left right difference: " << left_line_count <<" "<< right_line_count <<" "<< left_line_count - right_line_count<< std::endl;
 
 	}	
