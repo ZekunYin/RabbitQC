@@ -1,5 +1,8 @@
 ![RabbitQC](qc.png)
 
+# RabbitQCPlus
+[RabbitQCPlus](https://github.com/RabbitBio/RabbitQCPlus) (the successor of RabbitQC) has been released recently. We have solved the main performance issues in processing gzip-compressed files and performing the time-consuming over-representation analysis. The new repo is available at https://github.com/RabbitBio/RabbitQCPlus.
+
 # RabbitQC
 A tool designed to provide high-speed scalable quality control for sequencing data which can take full advantage of modern hardware.
 It includes a variety of function modules and supports different sequencing technologies (Illumina, Oxford Nanopore, PacBio). RabbitQC achieves speedups between one and two orders-of-magnitude compared to other state-of-the-art tools.
