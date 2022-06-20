@@ -625,7 +625,7 @@ string Evaluator::getAdapterWithSeed(int seed, Read** loadedReads, long records,
 
 	for(int i=0; i<thread_count; i++){
 	    vector<AdapterSeedInfo>::iterator it;
-	    for(it = vecArr.at(i).begin(); it != vecArr.at(i).end(); it++){
+	    for(it = vecArr.at(i).begin(); it != vecArr.at(i).end() && it->pos < 10000; it++){
 		    forwardTree.addSeq(loadedReads[it->recordsID]->mSeq.mStr.substr(it->pos+keylen, loadedReads[it->recordsID]->length()-keylen-shiftTail-it->pos));
 		    string seq =  loadedReads[it->recordsID]->mSeq.mStr.substr(0, it->pos);
 		    string rcseq = reverse(seq);
